@@ -1,0 +1,47 @@
+name: CI Pipeline - Example
+
+# Quando esse pipeline será executado
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:   # permite executar manualmente
+
+jobs:
+  build:
+    name: Build & Test
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1) Checkout do código
+      - name: Checkout do repositório
+        uses: actions/checkout@v4
+
+      # 2) Setup do Node.js (exemplo)
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      # 3) Instalar dependências
+      - name: Instalar dependências
+        run: npm install
+
+      # 4) Executar testes
+      - name: Executar testes
+        run: npm test
+
+      # 5) Step simples com echo
+      - name: Exibir mensagem no pipeline
+        run: echo "Pipeline executado com sucesso!"
+
+      # 6) Gerar artefato para download
+      - name: Gerar arquivo de relatório
+        run: echo "Relatório gerado às $(date)" > report.txt
+
+      - name: Upload do relatório
+        uses: actions/upload-artifact@v4
+        with:
+          name: relatorio-ci
+          path: report.txt
