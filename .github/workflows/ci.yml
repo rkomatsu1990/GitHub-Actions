@@ -9,3 +9,27 @@ jobs:
     steps:
       - name: Mostrar mensagem
         run: echo "Hello Rafael K! Workflow executado."
+
+      - name: Mostrar versão do Ubuntu
+        run: |
+          echo "=== Versão do SO ==="
+          lsb_release -a
+          echo "=== Kernel ==="
+          uname -a
+
+      - name: Atualizar o sistema
+        run: |
+          sudo apt-get update -y
+          sudo apt-get upgrade -y
+
+      - name: Instalar pacotes (nmap, telnet)
+        run: |
+          sudo apt-get install -y nmap
+          sudo apt-get install -y telnet
+          # ou tudo em uma linha:
+          # sudo apt-get install -y nmap telnet
+
+      - name: Testar comandos instalados
+        run: |
+          nmap --version
+          telnet --version || echo "Telnet não mostra versão, mas está instalado"
